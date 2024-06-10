@@ -90,7 +90,7 @@ df = df.drop_duplicates()
 
 df_useful = df[['asin','reviewText','vote','overall']]
 
-#keep only those where asin shows up at least ten times
+#keep only those where asin shows up at least fifty times
 asin_counts = df_useful['asin'].value_counts()
 valid_asins = asin_counts[asin_counts >= 50].index
 
@@ -98,5 +98,5 @@ valid_asins = asin_counts[asin_counts >= 50].index
 df_useful= df_useful[df_useful['asin'].isin(valid_asins)]
 df_useful['asin'].value_counts()
 
-df_useful .to_csv('compiled_data.csv')
+df_useful .to_csv('compiled_data.csv') 
 
