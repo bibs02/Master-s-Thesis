@@ -17,7 +17,7 @@ df7 = pd.read_json('data\Sports_and_Outdoors_5.json.gz', lines=True, compression
 
 #Word Cloud for all beauty
 text = " ".join(str(review) for review in df1.reviewText)
-wordcloud = WordCloud(collocations = False, stopwords=stop_words,background_color = 'white').generate(text)
+wordcloud = WordCloud(collocations = False, stopwords=STOPWORDS,background_color = 'white').generate(text)
 
 # Display the generated image:
 plt.imshow(wordcloud, interpolation='bilinear')
@@ -26,7 +26,7 @@ plt.show()
 
 #Word Cloud for instruments
 text = " ".join(str(review) for review in df2.reviewText)
-wordcloud = WordCloud(collocations = False, stopwords=stop_words,background_color = 'white').generate(text)
+wordcloud = WordCloud(collocations = False, stopwords=STOPWORDS,background_color = 'white').generate(text)
 
 # Display the generated image:
 plt.imshow(wordcloud, interpolation='bilinear')
@@ -35,7 +35,7 @@ plt.show()
 
 #Word Cloud for tools and home
 text = " ".join(str(review) for review in df3.reviewText)
-wordcloud = WordCloud(collocations = False, stopwords=stop_words,background_color = 'white').generate(text)
+wordcloud = WordCloud(collocations = False, stopwords=STOPWORDS,background_color = 'white').generate(text)
 
 # Display the generated image:
 plt.imshow(wordcloud, interpolation='bilinear')
@@ -44,7 +44,7 @@ plt.show()
 
 #Word Cloud for phone
 text = " ".join(str(review) for review in df4.reviewText)
-wordcloud = WordCloud(collocations = False, stopwords=stop_words,background_color = 'white').generate(text)
+wordcloud = WordCloud(collocations = False, stopwords=STOPWORDS,background_color = 'white').generate(text)
 
 # Display the generated image:
 plt.imshow(wordcloud, interpolation='bilinear')
@@ -53,7 +53,7 @@ plt.show()
 
 #Word Cloud for automotive
 text = " ".join(str(review) for review in df5.reviewText)
-wordcloud = WordCloud(collocations = False, stopwords=stop_words,background_color = 'white').generate(text)
+wordcloud = WordCloud(collocations = False, stopwords=STOPWORDS,background_color = 'white').generate(text)
 
 # Display the generated image:
 plt.imshow(wordcloud, interpolation='bilinear')
@@ -62,7 +62,7 @@ plt.show()
 
 #Word Cloud for toys
 text = " ".join(str(review) for review in df6.reviewText)
-wordcloud = WordCloud(collocations = False, stopwords=stop_words,background_color = 'white').generate(text)
+wordcloud = WordCloud(collocations = False, stopwords=STOPWORDS,background_color = 'white').generate(text)
 
 # Display the generated image:
 plt.imshow(wordcloud, interpolation='bilinear')
@@ -72,7 +72,7 @@ plt.show()
 
 #Word Cloud for sports
 text = " ".join(str(review) for review in df7.reviewText)
-wordcloud = WordCloud(collocations = False, stopwords=stop_words,background_color = 'white').generate(text)
+wordcloud = WordCloud(collocations = False, stopwords=STOPWORDS,background_color = 'white').generate(text)
 
 # Display the generated image:
 plt.imshow(wordcloud, interpolation='bilinear')
@@ -82,11 +82,21 @@ plt.show()
 
 #combine data in a single dataframe
 df = pd.concat([df1, df2, df3,df4, df5,df6,df7])
+#df.__len__() #9816359 reviews
 
 df = df.drop_duplicates()
+#products = df['asin'].nunique(dropna=True)
+#print(products) #395436 products
 
 df_useful = df[['asin','reviewText','vote','overall']]
 
-# export to csv file to be used later in analysis
+#keep only those where asin shows up at least ten times
+asin_counts = df_useful['asin'].value_counts()
+valid_asins = asin_counts[asin_counts >= 50].index
+
+# Keep only rows with 'asin' values in valid_asins
+df_useful= df_useful[df_useful['asin'].isin(valid_asins)]
+df_useful['asin'].value_counts()
+
 df_useful .to_csv('compiled_data.csv')
 
