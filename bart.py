@@ -24,7 +24,6 @@ ids = df['asin'].unique()
 id_batches = [ids[i:i+batch_size] for i in range(0, len(ids), batch_size)]
 
 batch = id_batches[7]
-sys.setrecursionlimit(1500)
 
 
 for id in batch:
@@ -55,7 +54,7 @@ for id in batch:
 results.to_csv('bart_results.csv') 
 
 #create new dataframe with only columns relevant for analysis and plot creation
-cols = ['prod', 'rouge_1','rouge_2','rouge_l' ]
+cols = ['prod', 'rouge_1','rouge_2','rouge_l']
 small_results = results[cols]
 
 small_results.to_csv('bart_small_results.csv') 
