@@ -4,7 +4,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
+#read data
 cols = ['product1', 'product2','product3','product4','product5' ]
 control = pd.read_csv("survey_control.csv", )
 control = control[cols]
@@ -88,9 +88,6 @@ plt.show()
 
 
 ###### tests per product 
-# To verify whether TextRank achieves a superior performance despite of external factors, an analysis was conducted on each product individually. 
-
-
 
 # Perform t-test for textrank
 avg_control_pp =control.mean()
